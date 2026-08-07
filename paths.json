@@ -1,22 +1,22 @@
 {
   "mappings": [
-    "/content/wknd-universal/language-masters/en:/",
-    "/content/wknd-universal/language-masters/en/:/en/",
-    "/content/wknd-universal/language-masters/fr/:/fr/",
-    "/content/wknd-universal/language-masters/fr:/fr",
-    "/content/wknd-universal/language-masters/es/:/es/",
-    "/content/wknd-universal/language-masters/es:/es",
-    "/content/wknd-universal/language-masters/ja/:/ja/",
-    "/content/wknd-universal/language-masters/ja:/ja",
-    "/content/wknd-universal/language-masters/de/:/de/",
-    "/content/wknd-universal/language-masters/de:/de",
-    "/content/wknd-universal/configuration:/.helix/config.json",
-    "/content/wknd-universal/metadata:/metadata.json",
-    "/content/wknd-universal/redirects:/redirects.json",
-    "/content/wknd-universal/placeholders:/placeholders.json"
+    "/content/loves-eds-ue/language-masters/en:/",
+    "/content/loves-eds-ue/language-masters/en/:/en/",
+    "/content/loves-eds-ue/language-masters/fr/:/fr/",
+    "/content/loves-eds-ue/language-masters/fr:/fr",
+    "/content/loves-eds-ue/language-masters/es/:/es/",
+    "/content/loves-eds-ue/language-masters/es:/es",
+    "/content/loves-eds-ue/language-masters/ja/:/ja/",
+    "/content/loves-eds-ue/language-masters/ja:/ja",
+    "/content/loves-eds-ue/language-masters/de/:/de/",
+    "/content/loves-eds-ue/language-masters/de:/de",
+    "/content/loves-eds-ue/configuration:/.helix/config.json",
+    "/content/loves-eds-ue/metadata:/metadata.json",
+    "/content/loves-eds-ue/redirects:/redirects.json",
+    "/content/loves-eds-ue/placeholders:/placeholders.json"
   ],
   "includes": [
-    "/content/wknd-universal/",
-    "/content/dam/wknd-universal/"
+    "/content/loves-eds-ue/",
+    "/content/dam/loves-eds-ue/"
   ]
 }
