@@ -105,15 +105,15 @@ export default function parse(element, { document }) {
       textFrag.appendChild(p);
     }
 
-    // --- Column 3: card-style config (empty — default card style) ---
-    const styleFrag = document.createDocumentFragment();
-
-    // --- Column 4: cta-style config ---
+    // --- Column 3: cta-style config ---
+    // The `card` model (blocks/cards/_cards.json) has exactly 3 fields —
+    // image, text, ctastyle — so the row must be 3 cells. (An extra empty
+    // "card-style" cell breaks md2jcr, which maps each cell to a model field.)
     const ctaStyleFrag = document.createDocumentFragment();
     ctaStyleFrag.appendChild(document.createComment(' field:ctastyle '));
     ctaStyleFrag.appendChild(document.createTextNode('button'));
 
-    cells.push([imageFrag, textFrag, styleFrag, ctaStyleFrag]);
+    cells.push([imageFrag, textFrag, ctaStyleFrag]);
   });
 
   // Empty-block guard: no cards found → unwrap.
