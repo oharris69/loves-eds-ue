@@ -7,3 +7,9 @@ helix-importer-ui
 .DS_Store
 *.bak
 .idea
+migration-work/navigation-validation/
+migration-work/footer-validation/
+
+# Generated import artifacts (bundled from import-*.js; run outputs)
+tools/importer/*.bundle.js
+tools/importer/reports/

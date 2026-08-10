@@ -1,0 +1,15 @@
+{
+  "type": "xwalk",
+  "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+  "sites": {
+    "loves-eds-ue": {
+      "previewOrg": "oharris69",
+      "previewSite": "loves-eds-ue",
+      "aemSitePath": "/content/loves-eds-ue",
+      "aemAssetsFolderPath": "/content/dam/loves-eds-ue",
+      "aemSiteName": "loves-eds-ue",
+      "aemSiteTitle": "Loves",
+      "libraryUrl": "https://main--loves-eds-ue--oharris69.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

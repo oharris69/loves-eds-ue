@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://www.loves.com/"
+      ],
+      "description": "Love's Travel Stops homepage. Main content is a branded hero/app-promo banner, a 3-column feature cards row, a full-width photographic hero banner (Freight Factoring), and a 4-column feature cards row. Header/navigation and footer are handled by dedicated navigation/footer flows.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "main #content section.homeHero_home-hero__s_HdG",
+            "main #content section.component.Default section.default_hero__45Dc5"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "main #content section.grid_grid__PqGa9"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "hero-app-promo",
+          "name": "Hero / App-Promo Banner",
+          "selector": "main #content section.homeHero_home-hero__s_HdG",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "cards-3col",
+          "name": "3-Column Feature Cards",
+          "selector": "main #content section.grid_grid__PqGa9:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "hero-freight-factoring",
+          "name": "Freight Factoring Full-Width Banner",
+          "selector": "main #content section.component.Default section.default_hero__45Dc5",
+          "style": "theme-dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "cards-4col",
+          "name": "4-Column Feature Cards",
+          "selector": "main #content section.grid_grid__PqGa9:nth-of-type(4)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

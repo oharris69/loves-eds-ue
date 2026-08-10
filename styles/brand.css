@@ -1,0 +1,37 @@
+/*
+ * Love's Travel Stops — brand design tokens.
+ * Extracted from https://www.loves.com/ (Phase 1 design migration).
+ * These override the boilerplate defaults in styles.css :root.
+ */
+:root {
+  /* brand palette */
+  --brand-background-color: #fff;
+  --brand-dark-color: #000;
+  --brand-light-color: #ffeb00; /* Love's signature yellow */
+  --brand-text-color: #000;
+  --brand-light-text-color: #fff;
+  --brand-link-color: #333;
+  --brand-link-hover-color: #c00000;
+  --brand-theme-color: #ffeb00; /* Love's yellow accent */
+  --loves-yellow: #ffeb00;
+  --loves-red: #e2231a; /* Love's heart red */
+
+  /*
+   * Fonts (Muli → Mulish) are set directly on --*-font-family in styles.css :root,
+   * which is imported after this file and would otherwise win the cascade. They are
+   * intentionally NOT redeclared here. head.html loads the Mulish Google Font.
+   */
+
+  /* body sizes — closer to the source's compact scale */
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
+
+  /* heading sizes */
+  --heading-font-size-xxl: 44px;
+  --heading-font-size-xl: 36px;
+  --heading-font-size-l: 28px;
+  --heading-font-size-m: 24px;
+  --heading-font-size-s: 20px;
+  --heading-font-size-xs: 18px;
+}

@@ -1,0 +1,67 @@
+/*
+ * Location Search block — "Find a Love's Near You".
+ * White panel, bold grey label, bordered input + grey submit button.
+ * Mirrors the source homepage quick-search widget.
+ */
+
+.location-search {
+  background: #fff;
+  padding: 20px 24px;
+  max-width: 497px;
+  box-sizing: border-box;
+}
+
+.location-search .location-search-label {
+  display: block;
+  color: #808080;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--heading-font-family);
+  margin-bottom: 10px;
+}
+
+.location-search .location-search-form {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #808080;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.location-search .location-search-form input {
+  flex: 1 1 auto;
+  border: 0;
+  outline: none;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: var(--body-font-family);
+  min-width: 0;
+}
+
+.location-search .location-search-button {
+  border: 0;
+  background: #808080;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 16px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.location-search .location-search-button:hover {
+  background: #6b6b6b;
+}
+
+.location-search .location-search-icon {
+  font-size: 18px;
+}
+
+@media (width <= 599px) {
+  .location-search {
+    max-width: 100%;
+  }
+
+  .location-search .location-search-label {
+    font-size: 20px;
+  }
+}

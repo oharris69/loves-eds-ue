@@ -1,0 +1,48 @@
+{
+  "definitions": [
+    {
+      "title": "Location Search",
+      "id": "location-search",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Location Search",
+              "model": "location-search"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "location-search",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Label",
+          "value": "Find a Love's Near You"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "placeholder",
+          "label": "Input Placeholder",
+          "value": "Enter a Location"
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "target",
+          "label": "Target Search Page",
+          "description": "Where the search submits to (e.g. the location & fuel-price search page)."
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
