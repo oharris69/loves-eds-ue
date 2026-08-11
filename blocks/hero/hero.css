@@ -126,8 +126,12 @@
 .hero.block.overlay .hero-text {
   position: absolute;
   bottom: 16px;
-  left: max(24px, calc(50% - 576px));  /* left edge of centred 1200 content column */
-  width: min(497px, calc(100% - 48px));
+
+  /* Left half of the centred box pair: meets the white location-search box at
+     the 50% line, mirroring loves.com where the dark app-promo box and the
+     location search sit side-by-side over the hero's bottom edge. */
+  left: max(24px, calc(50% - 496px));
+  width: min(496px, calc(50% - 24px));
   padding: 8px 20px;
   background: rgb(0 0 0 / 38%);
 }

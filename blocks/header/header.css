@@ -46,10 +46,18 @@ header .nav-logo {
   display: inline-flex;
   align-items: center;
   justify-self: center;
+
+  /* loves.com bakes a black rounded frame into the logo PNG; our DAM asset is
+     the bare wordmark, so reproduce the frame in CSS. The framed unit stays
+     ~50px tall (matching the source) by shrinking the inner logo below. */
+  padding: 3px 9px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  background: transparent;
 }
 
 header .nav-logo img {
-  height: 50px; /* matches loves.com (194x50) */
+  height: 38px; /* framed unit ≈ 50px tall, matching loves.com */
   width: auto;
   display: block;
 }
@@ -63,11 +71,18 @@ header .nav-tools {
 }
 
 header .nav-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: #c00;
   font-weight: 700;
   font-size: 14px;
   text-decoration: none;
   white-space: nowrap;
+}
+
+header .nav-login-icon {
+  flex: 0 0 auto;
 }
 
 header .nav-login:hover {

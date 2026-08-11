@@ -11,6 +11,31 @@
   box-sizing: border-box;
 }
 
+/* ------------------------------------------------------------------
+   Homepage overlay: when the location search shares a section with the
+   hero, it overlaps the hero's bottom edge as the RIGHT half of a centred
+   box pair — the dark hero app-promo box is the left half — matching
+   loves.com (both boxes meet at the 50% line, 16px above the hero bottom).
+------------------------------------------------------------------ */
+.hero-container.location-search-container {
+  position: relative;
+}
+
+.hero-container.location-search-container .location-search-wrapper {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  z-index: 2;
+  width: min(496px, calc(50% - 24px));
+  margin: 0;
+  padding: 0;
+}
+
+.hero-container.location-search-container .location-search {
+  width: 100%;
+  max-width: none;
+}
+
 .location-search .location-search-label {
   display: block;
   color: #808080;
@@ -54,6 +79,16 @@
 
 .location-search .location-search-icon {
   font-size: 18px;
+}
+
+/* Below the desktop breakpoint the overlay is too cramped; return the search
+   to normal flow directly under the hero (like loves.com's stacked mobile). */
+@media (width <= 899px) {
+  .hero-container.location-search-container .location-search-wrapper {
+    position: static;
+    width: auto;
+    padding: 16px 16px 24px;
+  }
 }
 
 @media (width <= 599px) {
