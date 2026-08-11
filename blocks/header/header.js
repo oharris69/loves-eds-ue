@@ -154,8 +154,11 @@ export default async function decorate(block) {
   const topUl = navUl;
   const topItems = topUl ? [...topUl.children].filter((c) => c.tagName === 'LI') : [];
   topItems.forEach((li) => {
-    const topLink = li.querySelector(':scope > a');
+    // The top-level link may be a direct child <a> (local) or wrapped in a <p>
+    // (delivered). Take the first <a> that is NOT inside the submenu <ul>.
     const subUl = li.querySelector(':scope > ul');
+    const topLink = [...li.querySelectorAll('a')].find((el) => !subUl || !subUl.contains(el));
+    if (!topLink) return;
     const item = document.createElement('li');
     item.className = 'nav-item';
 
