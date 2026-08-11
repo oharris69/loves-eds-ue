@@ -7,19 +7,43 @@
  * from the fragment; nothing is hardcoded here.
  */
 
-/** Fetch the footer fragment: localhost/aem-up first, then DA/EDS production. */
+/**
+ * Try each candidate `.plain.html` path in order; resolve with the parsed DOM of
+ * the first that responds OK, or null. Sequential (reduce over a promise chain)
+ * to respect the project's no-await-in-loop / no-restricted-syntax rules.
+ */
+function fetchFirstFragment(paths) {
+  return paths.reduce((chain, path) => chain.then((found) => {
+    if (found) return found;
+    return fetch(`${path}.plain.html`)
+      .then((resp) => (resp.ok ? resp.text() : null))
+      .then((html) => {
+        if (!html) return null;
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return tmp;
+      })
+      .catch(() => null);
+  }), Promise.resolve(null));
+}
+
+/**
+ * Fetch the footer fragment. The footer document lives alongside the page in
+ * the content tree (published at `<lang>/footer`), so resolve it relative to the
+ * current locale. A `meta[name="footer"]` override wins if present; otherwise
+ * fall back to the language-root footer, then a top-level `/footer`.
+ */
 async function fetchFooter() {
-  let resp = await fetch('/content/footer.plain.html');
-  if (!resp.ok) {
-    const footerMeta = document.querySelector('meta[name="footer"]');
-    const footerPath = footerMeta ? footerMeta.content : '/footer';
-    resp = await fetch(`${footerPath}.plain.html`);
-  }
-  if (!resp.ok) return null;
-  const html = await resp.text();
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp;
+  const footerMeta = document.querySelector('meta[name="footer"]');
+  const seg = window.location.pathname.split('/').filter(Boolean);
+  const langRoot = seg.length ? `/${seg[0]}` : '';
+  const candidates = [
+    footerMeta && footerMeta.content,
+    langRoot && `${langRoot}/footer`,
+    '/footer',
+    '/content/footer',
+  ].filter(Boolean);
+  return fetchFirstFragment(candidates);
 }
 
 export default async function decorate(block) {

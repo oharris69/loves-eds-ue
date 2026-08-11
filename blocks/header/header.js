@@ -15,19 +15,43 @@
 
 const MOBILE = window.matchMedia('(max-width: 899px)');
 
-/** Fetch the nav fragment: localhost/aem-up first, then DA/EDS production. */
+/**
+ * Try each candidate `.plain.html` path in order; resolve with the parsed DOM of
+ * the first that responds OK, or null. Sequential (reduce over a promise chain)
+ * to respect the project's no-await-in-loop / no-restricted-syntax rules.
+ */
+function fetchFirstFragment(paths) {
+  return paths.reduce((chain, path) => chain.then((found) => {
+    if (found) return found;
+    return fetch(`${path}.plain.html`)
+      .then((resp) => (resp.ok ? resp.text() : null))
+      .then((html) => {
+        if (!html) return null;
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return tmp;
+      })
+      .catch(() => null);
+  }), Promise.resolve(null));
+}
+
+/**
+ * Fetch the nav fragment. The nav document lives alongside the page in the
+ * content tree (published at `<lang>/nav`), so resolve it relative to the
+ * current locale. A `meta[name="nav"]` override wins if present; otherwise fall
+ * back to the language-root nav, then a top-level `/nav`.
+ */
 async function fetchNav() {
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) {
-    const navMeta = document.querySelector('meta[name="nav"]');
-    const navPath = navMeta ? navMeta.content : '/nav';
-    resp = await fetch(`${navPath}.plain.html`);
-  }
-  if (!resp.ok) return null;
-  const html = await resp.text();
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp;
+  const navMeta = document.querySelector('meta[name="nav"]');
+  const seg = window.location.pathname.split('/').filter(Boolean);
+  const langRoot = seg.length ? `/${seg[0]}` : '';
+  const candidates = [
+    navMeta && navMeta.content,
+    langRoot && `${langRoot}/nav`,
+    '/nav',
+    '/content/nav',
+  ].filter(Boolean);
+  return fetchFirstFragment(candidates);
 }
 
 /** Build the site-search form (not embedded in the portable fragment). */

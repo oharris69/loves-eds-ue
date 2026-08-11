@@ -6,6 +6,7 @@ import heroParser from './parsers/hero.js';
 import cardsParser from './parsers/cards.js';
 
 // TRANSFORMER IMPORTS
+import lovesDamImagesTransformer from './transformers/loves-dam-images.js';
 import lovesCleanupTransformer from './transformers/loves-cleanup.js';
 import lovesLocationSearchTransformer from './transformers/loves-location-search.js';
 import lovesSectionsTransformer from './transformers/loves-sections.js';
@@ -78,6 +79,9 @@ const parsers = {
 // cleanup (both act in their own hooks). Section transformer only makes sense
 // when the template has 2+ sections.
 const transformers = [
+  // Runs first (beforeTransform): rewrite external Sitecore image URLs to DAM
+  // paths so parsers emit DAM references (which render as <img>, not links).
+  lovesDamImagesTransformer,
   lovesCleanupTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [lovesSectionsTransformer] : []),
   // Runs last: injects the location-search block after the app-promo hero, once
@@ -180,6 +184,13 @@ export default {
     WebImporter.rules.createMetadata(output, document);
     WebImporter.rules.transformBackgroundImages(output, document);
     WebImporter.rules.adjustImageUrls(output, url, params.originalURL);
+
+    // 5b. Re-relativize DAM references. adjustImageUrls() absolutizes every
+    //     image against the source origin (e.g. https://www.loves.com/content/dam/…),
+    //     but DAM paths must stay root-relative (/content/dam/…) for AEM/JCR.
+    output.querySelectorAll('img[src*="/content/dam/"]').forEach((img) => {
+      img.setAttribute('src', img.getAttribute('src').replace(/^https?:\/\/[^/]+/, ''));
+    });
 
     // 6. Generate sanitized path. Map the root/homepage URL to `/index` (an empty
     //    path would make the bundled importer's path polyfill throw).
