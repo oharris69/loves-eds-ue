@@ -131,7 +131,8 @@ export default async function decorate(block) {
     logoWrap.textContent = "Love's Travel Stops";
   }
 
-  // Tools: Customer Login + search
+  // Tools: Customer Login lives in the top brand bar (right); the site search
+  // sits at the right end of the nav band row, matching loves.com.
   const tools = document.createElement('div');
   tools.className = 'nav-tools';
   if (loginLink) {
@@ -141,7 +142,6 @@ export default async function decorate(block) {
     a.textContent = loginLink.textContent.trim();
     tools.appendChild(a);
   }
-  tools.appendChild(buildSearch());
 
   brandBar.append(hamburger, logoWrap, tools);
 
@@ -207,6 +207,8 @@ export default async function decorate(block) {
     navList.appendChild(item);
   });
   navBand.appendChild(navList);
+  // Search sits at the right end of the nav band row (like loves.com).
+  navBand.appendChild(buildSearch());
 
   nav.append(brandBar, navBand);
 
