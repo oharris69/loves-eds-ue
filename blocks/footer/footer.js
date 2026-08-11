@@ -28,15 +28,17 @@ function fetchFirstFragment(paths) {
 }
 
 /**
- * Fetch the footer fragment. The footer document lives alongside the page in
- * the content tree (published at `<lang>/footer`), so resolve it relative to the
- * current locale. A `meta[name="footer"]` override wins if present; otherwise
- * fall back to the language-root footer, then a top-level `/footer`.
+ * Fetch the footer fragment. The footer document lives at the site's language
+ * root: for this site `.../language-masters/en` maps to `/` (so footer is
+ * `/footer`), while other locales map to `/<lang>` (so footer is
+ * `/<lang>/footer`). Only treat the first path segment as a locale when it's a
+ * 2-letter code; otherwise the page is under the default (root) locale. A
+ * `meta[name="footer"]` override always wins.
  */
 async function fetchFooter() {
   const footerMeta = document.querySelector('meta[name="footer"]');
   const seg = window.location.pathname.split('/').filter(Boolean);
-  const langRoot = seg.length ? `/${seg[0]}` : '';
+  const langRoot = (seg[0] && /^[a-z]{2}$/.test(seg[0])) ? `/${seg[0]}` : '';
   const candidates = [
     footerMeta && footerMeta.content,
     langRoot && `${langRoot}/footer`,

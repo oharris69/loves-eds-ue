@@ -36,15 +36,16 @@ function fetchFirstFragment(paths) {
 }
 
 /**
- * Fetch the nav fragment. The nav document lives alongside the page in the
- * content tree (published at `<lang>/nav`), so resolve it relative to the
- * current locale. A `meta[name="nav"]` override wins if present; otherwise fall
- * back to the language-root nav, then a top-level `/nav`.
+ * Fetch the nav fragment. The nav document lives at the site's language root:
+ * for this site `.../language-masters/en` maps to `/` (so nav is `/nav`), while
+ * other locales map to `/<lang>` (so nav is `/<lang>/nav`). Only treat the first
+ * path segment as a locale when it's a 2-letter code; otherwise the page is under
+ * the default (root) locale. A `meta[name="nav"]` override always wins.
  */
 async function fetchNav() {
   const navMeta = document.querySelector('meta[name="nav"]');
   const seg = window.location.pathname.split('/').filter(Boolean);
-  const langRoot = seg.length ? `/${seg[0]}` : '';
+  const langRoot = (seg[0] && /^[a-z]{2}$/.test(seg[0])) ? `/${seg[0]}` : '';
   const candidates = [
     navMeta && navMeta.content,
     langRoot && `${langRoot}/nav`,
