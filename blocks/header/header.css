@@ -20,6 +20,13 @@ header #nav {
   margin: 0 auto;
 }
 
+/* The boilerplate adds a Font Awesome chevron via `a::after` to every link;
+   Love's header links (logo, login, nav, dropdown) have no arrow — suppress it. */
+body header #nav a::after,
+body header #nav a::before {
+  content: none;
+}
+
 /* ---------- Brand bar (band 1) ---------- */
 header .nav-brand-bar {
   display: flex;
@@ -101,11 +108,12 @@ header .nav-band {
 header .nav-list {
   list-style: none;
   margin: 0 auto;
-  padding: 0 24px;
-  max-width: 1200px;
+  padding: 0 16px;
+  max-width: 1248px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* single row, like the source */
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0;
 }
 
@@ -121,7 +129,7 @@ header .nav-item-link {
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
-  padding: 8px 14px;
+  padding: 8px 12px;
   white-space: nowrap;
 }
 
@@ -129,16 +137,15 @@ header .nav-item-link:hover {
   background-color: rgb(0 0 0 / 30%);
 }
 
+/* The source shows no arrow/chevron on top-level nav items — suppress both the
+   boilerplate `a::after` Font Awesome chevron and our own triangle on desktop. */
+header .nav-item-link::after,
+header .nav-item-link::before {
+  content: none;
+}
+
 header .nav-chevron {
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid currentcolor;
-  color: #fff;
-  margin-left: 2px;
-  transition: transform 0.2s ease;
-  pointer-events: auto;
+  display: none;
 }
 
 /* ---------- Dropdown (desktop: hover) ---------- */
