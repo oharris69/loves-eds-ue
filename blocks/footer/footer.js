@@ -57,57 +57,63 @@ export default async function decorate(block) {
   const source = await fetchFooter();
   if (!source) return;
 
-  const sections = [...source.children];
-  // Section 0: legal link list. Section 1: copyright. Section 2: social icons.
-  const legalSection = sections[0];
-  const copyrightSection = sections[1];
-  const socialSection = sections[2];
+  // Locate content by WHAT it is, not by section index. Delivery may keep the
+  // three authored sections separate (local) OR collapse them into one section
+  // (AEM stores the fragment as one text node). Both cases work:
+  //   - legal links  = the first <ul> whose links are NOT social (no images)
+  //   - social icons = the <ul> whose <li> contain images/icons
+  //   - copyright    = the <p> containing "Copyright"
+  const uls = [...source.querySelectorAll('ul')];
+  const socialUl = uls.find((ul) => ul.querySelector('img, picture, span[class*="icon"]'));
+  const legalUl = uls.find((ul) => ul !== socialUl);
+  const copyrightP = [...source.querySelectorAll('p')]
+    .find((p) => /copyright|all rights reserved/i.test(p.textContent));
 
   const footer = document.createElement('div');
   footer.className = 'footer-inner';
 
   // --- Legal / utility links ---
-  if (legalSection) {
+  if (legalUl) {
     const legal = document.createElement('nav');
     legal.className = 'footer-legal';
     legal.setAttribute('aria-label', 'Footer');
-    const ul = legalSection.querySelector('ul');
-    if (ul) legal.appendChild(ul.cloneNode(true));
+    legal.appendChild(legalUl.cloneNode(true));
     footer.appendChild(legal);
   }
 
   // --- Copyright ---
-  if (copyrightSection) {
+  if (copyrightP) {
     const copy = document.createElement('div');
     copy.className = 'footer-copyright';
-    const p = copyrightSection.querySelector('p');
-    copy.textContent = p ? p.textContent.trim() : copyrightSection.textContent.trim();
+    copy.textContent = copyrightP.textContent.trim();
     footer.appendChild(copy);
   }
 
   // --- Social icons ---
-  if (socialSection) {
+  if (socialUl) {
     const social = document.createElement('div');
     social.className = 'footer-social';
-    const ul = socialSection.querySelector('ul');
+    const ul = socialUl;
     if (ul) {
       const newUl = document.createElement('ul');
       [...ul.querySelectorAll('li')].forEach((li) => {
         const a = li.querySelector('a');
-        const img = li.querySelector('img');
         if (!a) return;
+        // On delivery the icon may be an <img>, an optimized <picture>, or an
+        // icon <span> — keep whichever is present.
+        const media = li.querySelector('picture, img, span[class*="icon"]');
         const nLi = document.createElement('li');
         const nA = document.createElement('a');
         nA.href = a.getAttribute('href');
         nA.setAttribute('target', '_blank');
         nA.setAttribute('rel', 'noopener');
-        if (img) {
-          const nImg = document.createElement('img');
-          nImg.src = img.getAttribute('src');
-          nImg.alt = img.getAttribute('alt') || '';
-          nImg.loading = 'lazy';
-          nA.setAttribute('aria-label', nImg.alt);
-          nA.appendChild(nImg);
+        const altText = (li.querySelector('img') && li.querySelector('img').getAttribute('alt'))
+          || a.textContent.trim();
+        nA.setAttribute('aria-label', altText);
+        if (media) {
+          nA.appendChild(media.cloneNode(true));
+        } else {
+          nA.textContent = altText;
         }
         nLi.appendChild(nA);
         newUl.appendChild(nLi);

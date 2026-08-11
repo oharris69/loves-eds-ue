@@ -84,11 +84,25 @@ export default async function decorate(block) {
   const source = await fetchNav();
   if (!source) return;
 
-  const sections = [...source.children];
-  // Section 0: logo (link + img). Section 1: Customer Login. Section 2: primary nav <ul>.
-  const brandSection = sections[0];
-  const loginSection = sections[1];
-  const navSection = sections[2];
+  // Locate content by WHAT it is, not by section index. Delivery may keep the
+  // three authored sections separate (local) OR collapse them into one section
+  // (AEM stores the fragment as one text node). Both cases work:
+  //   - logo  = the first <img>/<picture> in the fragment
+  //   - login = the "Customer Login" link (by text/href), excluding nav links
+  //   - nav   = the primary <ul> (the one whose items have nested <ul> submenus,
+  //             or otherwise the <ul> with the most top-level <li>s)
+  const uls = [...source.querySelectorAll('ul')];
+  const navUl = uls
+    .filter((ul) => ul.querySelector(':scope > li'))
+    .sort((a, b) => {
+      const score = (ul) => ul.querySelectorAll(':scope > li > ul').length * 100
+        + ul.querySelectorAll(':scope > li').length;
+      return score(b) - score(a);
+    })[0];
+  const logoImg = source.querySelector('picture, img');
+  const loginLink = [...source.querySelectorAll('a')]
+    .find((a) => /customer login|login|sign in/i.test(a.textContent)
+      || /fleetportal|login/i.test(a.getAttribute('href') || ''));
 
   const nav = document.createElement('nav');
   nav.id = 'nav';
@@ -110,13 +124,9 @@ export default async function decorate(block) {
   logoWrap.className = 'nav-logo';
   logoWrap.href = '/';
   logoWrap.setAttribute('aria-label', "Love's Travel Stops home");
-  const logoImg = brandSection ? brandSection.querySelector('img') : null;
   if (logoImg) {
-    const im = document.createElement('img');
-    im.src = logoImg.getAttribute('src');
-    im.alt = logoImg.getAttribute('alt') || "Love's Travel Stops";
-    im.loading = 'eager';
-    logoWrap.appendChild(im);
+    // Keep the delivered <picture>/<img> (optimized rendition) as-is.
+    logoWrap.appendChild(logoImg.cloneNode(true));
   } else {
     logoWrap.textContent = "Love's Travel Stops";
   }
@@ -124,7 +134,6 @@ export default async function decorate(block) {
   // Tools: Customer Login + search
   const tools = document.createElement('div');
   tools.className = 'nav-tools';
-  const loginLink = loginSection ? loginSection.querySelector('a') : null;
   if (loginLink) {
     const a = document.createElement('a');
     a.className = 'nav-login';
@@ -142,7 +151,7 @@ export default async function decorate(block) {
   const navList = document.createElement('ul');
   navList.className = 'nav-list';
 
-  const topUl = navSection ? navSection.querySelector(':scope > ul') : null;
+  const topUl = navUl;
   const topItems = topUl ? [...topUl.children].filter((c) => c.tagName === 'LI') : [];
   topItems.forEach((li) => {
     const topLink = li.querySelector(':scope > a');
