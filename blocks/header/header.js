@@ -46,9 +46,14 @@ async function fetchNav() {
   const navMeta = document.querySelector('meta[name="nav"]');
   const seg = window.location.pathname.split('/').filter(Boolean);
   const langRoot = (seg[0] && /^[a-z]{2}$/.test(seg[0])) ? `/${seg[0]}` : '';
+  // The nav doc is authored under the locale in the content tree (delivered at
+  // `/en/nav`). The default English homepage is at `/` (no locale prefix), so we
+  // must also try the default `/en/nav` there. Order: explicit meta, current
+  // locale, default `en` locale, then bare/local fallbacks.
   const candidates = [
     navMeta && navMeta.content,
     langRoot && `${langRoot}/nav`,
+    '/en/nav',
     '/nav',
     '/content/nav',
   ].filter(Boolean);

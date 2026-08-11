@@ -14,7 +14,9 @@
  * Runs in beforeTransform so the block parsers see DAM paths when they read img src.
  */
 
-const DAM_ROOT = '/content/dam/loves-eds-ue';
+// Assets were uploaded to AEM under the /en locale folder, keeping the
+// homepage/ brand/ social/ subfolders: /content/dam/loves-eds-ue/en/...
+const DAM_ROOT = '/content/dam/loves-eds-ue/en';
 
 // Match by a stable, query-independent substring of the source URL path.
 const URL_TO_DAM = [

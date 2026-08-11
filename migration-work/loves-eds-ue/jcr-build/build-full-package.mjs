@@ -59,9 +59,18 @@ pages.forEach((p) => {
   roots.push(p.jcrPath);
 });
 
+// Scope filters precisely. The homepage IS the `en` node, so filtering `en`
+// broadly would replace the whole locale subtree (wiping sibling pages). Use a
+// filter on `en` that only updates its jcr:content + the nav/footer child pages,
+// leaving other children of `en` untouched.
 zip.file('META-INF/vault/filter.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-${roots.map((r) => `  <filter root="${r}"/>`).join('\n')}
+  <filter root="${SITE}">
+    <include pattern="${SITE}/jcr:content"/>
+    <include pattern="${SITE}/jcr:content/.*"/>
+  </filter>
+  <filter root="${SITE}/nav"/>
+  <filter root="${SITE}/footer"/>
 </workspaceFilter>
 `);
 zip.file('META-INF/vault/properties.xml', `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -70,12 +79,12 @@ zip.file('META-INF/vault/properties.xml', `<?xml version="1.0" encoding="UTF-8" 
   <comment>Love's homepage + nav + footer content package</comment>
   <entry key="name">loves-eds-ue-homepage</entry>
   <entry key="group">loves-eds-ue</entry>
-  <entry key="version">2.0</entry>
+  <entry key="version">2.1</entry>
   <entry key="packageType">content</entry>
-  <entry key="path">/etc/packages/loves-eds-ue/loves-eds-ue-homepage-2.0.zip</entry>
+  <entry key="path">/etc/packages/loves-eds-ue/loves-eds-ue-homepage-2.1.zip</entry>
   <entry key="description">Migrated Love's homepage, nav, footer for /content/loves-eds-ue/language-masters/en. Images reference /content/dam/loves-eds-ue - upload the dam-assets folder to AEM Assets.</entry>
 </properties>
 `);
 const buf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
-writeFileSync(`${BASE}/migration-work/loves-eds-ue/loves-eds-ue-homepage-2.0.zip`, buf);
+writeFileSync(`${BASE}/migration-work/loves-eds-ue/loves-eds-ue-homepage-2.1.zip`, buf);
 console.log('package:', buf.length, 'bytes | pages:', roots.length);

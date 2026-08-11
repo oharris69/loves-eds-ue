@@ -17,6 +17,18 @@
   --loves-red: #e2231a; /* Love's heart red */
 
   /*
+   * Header/footer chrome. styles.css reads these brand vars (with dark defaults)
+   * for `body header .nav-wrapper` / `body footer`. Set them here so the header
+   * renders on Love's yellow (not the boilerplate's translucent black) and the
+   * footer stays black — matching loves.com. header.css layers the dark nav band
+   * on top of the yellow bar.
+   */
+  --brand-nav-background-color: #ffeb00; /* Love's yellow header bar */
+  --brand-nav-text-color: #000;
+  --brand-footer-background-color: #000;
+  --brand-footer-text-color: #fff;
+
+  /*
    * Fonts (Muli → Mulish) are set directly on --*-font-family in styles.css :root,
    * which is imported after this file and would otherwise win the cascade. They are
    * intentionally NOT redeclared here. head.html loads the Mulish Google Font.

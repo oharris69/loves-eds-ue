@@ -39,9 +39,13 @@ async function fetchFooter() {
   const footerMeta = document.querySelector('meta[name="footer"]');
   const seg = window.location.pathname.split('/').filter(Boolean);
   const langRoot = (seg[0] && /^[a-z]{2}$/.test(seg[0])) ? `/${seg[0]}` : '';
+  // The footer doc is authored under the locale (delivered at `/en/footer`). The
+  // default English homepage is at `/`, so also try `/en/footer` there. Order:
+  // explicit meta, current locale, default `en` locale, then bare/local fallbacks.
   const candidates = [
     footerMeta && footerMeta.content,
     langRoot && `${langRoot}/footer`,
+    '/en/footer',
     '/footer',
     '/content/footer',
   ].filter(Boolean);
