@@ -145,6 +145,56 @@
           ]
         }
       ]
+    },
+    {
+      "name": "about-landing",
+      "urls": [
+        "https://www.loves.com/about-us"
+      ],
+      "coverageGaps": [],
+      "description": "About Us landing page for the Love's Family of Companies. Structure: breadcrumb navigation, an H1 page title, a two-column intro section (company overview paragraph with social links on the left, an embedded YouTube brand video on the right), and a four-column grid of family-of-companies cards (Gemini Motor Transport, Musket Corporation, Love's Alternative Energy, Speedco), each with an image, a linked heading, a description paragraph, and a LinkedIn social link. Distinct from the about-content-article template (tom-love-legacy) which has no card grid or video.",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(1)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(2)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1-title-intro",
+          "name": "Page Title + Two-Column Intro",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(1)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            "#content > h1.heading_heading__8mSev"
+          ]
+        },
+        {
+          "id": "section-2-family-of-companies",
+          "name": "Love's Family of Companies",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(2)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }

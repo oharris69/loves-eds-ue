@@ -44,6 +44,17 @@ const URL_TO_DAM = [
   ['community/communitygiving/store-1-in-watonga-ok', `${DAM_ROOT}/about/store-1-in-watonga-ok.png`],
   ['community/communitygiving/lovescares', `${DAM_ROOT}/about/lovescares.png`],
   ['community/communitygiving/g2g3', `${DAM_ROOT}/about/g2g3.png`],
+
+  // --- about-landing template (family-of-companies card images) ---
+  // The 4-up "Love's Family of Companies" grid on https://www.loves.com/about-us.
+  // Needles are stable path substrings of the source Sitecore CDN URLs
+  // (see migration-work/metadata.json .images.mapping). Each maps to a dedicated
+  // /about/company/ DAM path. These needles are unique to the about-landing page,
+  // so the entries are inert on the homepage and about-content-article templates.
+  ['trillium-images/website-refresh-images/company/laecanopy400x300', `${DAM_ROOT}/about/company/laecanopy400x300.png`],
+  ['newsandblogs/2017/loves-hauler-aero-tanker', `${DAM_ROOT}/about/company/gemini-hauler-aero-tanker.jpg`],
+  ['loves-beauty-shots/400x300/speedcotruckbay2_400x300', `${DAM_ROOT}/about/company/speedcotruckbay2.jpg`],
+  ['musket/400x300/musket-oil-rig-400x300', `${DAM_ROOT}/about/company/musket-oil-rig.jpg`],
 ];
 
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };
