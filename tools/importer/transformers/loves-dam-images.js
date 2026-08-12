@@ -4,12 +4,17 @@
 /**
  * Transformer: rewrite external Sitecore image URLs to AEM DAM paths.
  *
- * Love's homepage images are hosted on the Sitecore CDN (edge.sitecorecloud.io).
+ * Love's page images are hosted on the Sitecore CDN (edge.sitecorecloud.io).
  * An `image` (reference) field pointing at an external URL renders as a LINK, not
  * an <img>. For proper DAM ingestion the image must reference a DAM path, so this
  * maps each known source image (by a stable substring of its path) to its
  * /content/dam/loves-eds-ue/... location. The binaries are delivered separately
  * to be uploaded into AEM Assets at these same paths.
+ *
+ * Site-wide and additive: the map covers the homepage template images and the
+ * about-content-article template images. Because matching is by stable path
+ * substring, entries only rewrite URLs that actually appear on a given page, so
+ * the about entries are inert on the homepage and vice versa.
  *
  * Runs in beforeTransform so the block parsers see DAM paths when they read img src.
  */
@@ -20,6 +25,7 @@ const DAM_ROOT = '/content/dam/loves-eds-ue/en';
 
 // Match by a stable, query-independent substring of the source URL path.
 const URL_TO_DAM = [
+  // --- homepage template ---
   ['my-love-rewards/2026lovesrewards/loves26webheader', `${DAM_ROOT}/homepage/loves26webheader.jpg`],
   ['loves-beauty-shots/400x300/mlr_400x300', `${DAM_ROOT}/homepage/mlr_400x300.jpg`],
   ['lovestruckcare/400x300/lovestruckcare_400x300', `${DAM_ROOT}/homepage/lovestruckcare_400x300.jpg`],
@@ -29,6 +35,15 @@ const URL_TO_DAM = [
   ['loves-beauty-shots/400x300/fleet_400x300', `${DAM_ROOT}/homepage/fleet_400x300.jpg`],
   ['loves-beauty-shots/400x300/lovesconnectapp_400x300', `${DAM_ROOT}/homepage/lovesconnectapp_400x300.jpg`],
   ['newsandblogs/2022/roadsidespeedco_400x300', `${DAM_ROOT}/homepage/roadsidespeedco_400x300.jpg`],
+
+  // --- about-content-article template (in-content authorable images) ---
+  // Columns block image (section 2) + inline default-content images (sections 3-5).
+  // All live under media/images/community/communitygiving/ — no overlap with the
+  // homepage needles above, so these are inert on the homepage.
+  ['community/communitygiving/400x300-tom-judy-young-couple', `${DAM_ROOT}/about/tom-judy-young-couple.jpg`],
+  ['community/communitygiving/store-1-in-watonga-ok', `${DAM_ROOT}/about/store-1-in-watonga-ok.png`],
+  ['community/communitygiving/lovescares', `${DAM_ROOT}/about/lovescares.png`],
+  ['community/communitygiving/g2g3', `${DAM_ROOT}/about/g2g3.png`],
 ];
 
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };

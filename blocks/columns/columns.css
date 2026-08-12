@@ -1,40 +1,48 @@
+/*
+ * Columns block — side-by-side image | text layout.
+ * Visual design migrated from the "The Man Behind the Brand" section of
+ * https://www.loves.com/about-us/tom-love-legacy
+ *
+ * Source (desktop) computed values:
+ *   row:   display grid, columns 384px : 768px (image:text = 1:2), gap 16px, TOP aligned
+ *   image: natural aspect (2161x1816), no crop / radius / filter
+ *   h4:    20px / 700 / line-height 30px / #000 / margin-top 26.6px
+ *   body:  16px / line-height 24px / #000 / margin-top 16px
+ * Mobile-first: stacked (image on top); becomes side-by-side from 900px.
+ */
 
-.columns-wrapper {
-  box-sizing: border-box;
-}
-.columns-wrapper .columns {
-  box-sizing: border-box;
-}
+.columns-wrapper,
+.columns-wrapper .columns,
 .columns-wrapper .columns .columns-row {
   box-sizing: border-box;
 }
 
+/* ---------- Mobile (base): stacked, media above text ---------- */
 .columns > div {
   display: flex;
   flex-direction: column;
-}
-
-.columns img {
-  width: 100%;
+  gap: 16px; /* source column-gap / row-gap = 16px */
 }
 
 .columns > div > div {
-  order: 1;
+  order: 1; /* text below */
 }
 
-.columns > div > .columns-img-col {
-  order: 0;
-}
-
-.columns > div > .columns-img-col img {
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  max-height: 500px;
-}
-
+.columns > div > .columns-img-col,
 .columns .columns-video-col {
-  order: 0;
+  order: 0; /* media above */
+}
+
+/* ---------- Media ---------- */
+.columns img {
+  display: block;
+  width: 100%;
+  height: auto; /* natural aspect ratio; source shows the full, uncropped image */
+  border-radius: 0;
+}
+
+.columns picture {
+  display: block;
 }
 
 .columns video {
@@ -42,55 +50,57 @@
   width: 100%;
 }
 
+/* ---------- Typography (constant across breakpoints in source) ---------- */
+.columns h4 {
+  margin: 26.6px 0 0; /* source h4 margin-top; bottom margin 0 */
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--text-color); /* #000 via Love's brand tokens */
+}
 
+.columns p {
+  margin: 16px 0 0; /* source paragraph margin-top */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+/* EDS may wrap a bare image/picture cell in a <p>; neutralize its default margin */
+.columns .columns-img-col p {
+  margin: 0;
+}
+
+.columns ul,
+.columns ol {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+/* ---------- Desktop: side-by-side ---------- */
 @media (width >= 900px) {
   .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    display: flex;
+    flex-direction: row; /* reset from column */
+    align-items: start; /* source is TOP-aligned (heading tracks image top), not centered */
+    gap: 16px;
   }
 
   .columns > div > div {
-    flex: 1;
+    flex: 1; /* equal columns — generic default for any column count */
     order: unset;
   }
+
+  /* 2-column image | text: source ratio image:text = 1:2 (384px : 768px) */
+  .columns.columns-2-cols > div > div {
+    flex: 2;
+  }
+
+  .columns.columns-2-cols > div > .columns-img-col {
+    flex: 1;
+  }
 }
-
-
-
-
-/* Responsive Styles */
-@media (width < 1024px) {
-  .columns-container .columns-wrapper {
-    padding: 0 5%;
-  }
-  .columns-container .columns-wrapper .columns {
-    display: block;
-  }
-  .columns-container .columns-wrapper .columns .columns-row {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 20px 0;
-  }
-  .columns-container .columns-wrapper .columns .columns-row h1, 
-  .columns-container .columns-wrapper .columns .columns-row h2, 
-  .columns-container .columns-wrapper .columns .columns-row h3, 
-  .columns-container .columns-wrapper .columns .columns-row h4, 
-  .columns-container .columns-wrapper .columns .columns-row h5, 
-  .columns-container .columns-wrapper .columns .columns-row h6 {
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-  }
-  
-}
-
-@media (width < 768px) { 
-
-  .columns-container .columns-wrapper {
-    padding: 0 4%;
-  }
-
-}
-

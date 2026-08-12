@@ -1150,3 +1150,106 @@ table {
 .cta-button-dark a.button:active::after {
   transform: translateX(0);
 }
+
+/* ---------------------------------------------------------------------------
+ * Article / default-content typography (about-content-article template).
+ * Extracted from https://www.loves.com/about-us/tom-love-legacy.
+ * Scoped to `.default-content-wrapper` so it styles authored default content
+ * (headings, paragraphs, lists, inline floated images) WITHOUT touching any
+ * block (hero/cards/columns keep their own heading sizes). The homepage's
+ * headings all live inside blocks, so these rules never affect it.
+ * Source values (desktop 1440 / mobile 390):
+ *   h1  32/40 700 #000 · intro & body p 16/24 400 #000 · h4 20/30 700 #000
+ *   ul  disc, padding-left 40px, 16px top/bottom margins · li 16/24
+ *   inline images: 400px, float right/left, ~10-15px margins (text wraps)
+ * ------------------------------------------------------------------------- */
+
+/* Page title — source H1 is a compact 32/40, not the boilerplate 44px xxl. */
+main .default-content-wrapper h1 {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Section sub-headings — source uses h4 at 20/30 bold. */
+main .default-content-wrapper h4 {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-top: 26px;
+  margin-bottom: 0;
+}
+
+/* Body copy — 16/24 black, modest top margin between blocks. */
+main .default-content-wrapper p {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--text-color);
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+/* Bulleted lists — disc bullets, indented, matching body size. */
+main .default-content-wrapper ul {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-left: 40px;
+  list-style-type: disc;
+}
+
+main .default-content-wrapper li {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Inline article images float so the surrounding copy wraps around them,
+ * matching the source. In the imported markup each inline image sits alone in
+ * its own <p> (the picture is the paragraph's only child). We float that
+ * paragraph right, constrain it to the source's 400px, and let the following
+ * paragraphs/headings wrap beside it. (The source alternates right/left down
+ * the page, but the columns block leaves all inline images in a single
+ * default-content flow, so a consistent right rail is used — it matches the
+ * source's dominant placement and avoids brittle position-based selectors.) */
+main .default-content-wrapper p:has(> picture:only-child),
+main .default-content-wrapper p:has(> img:only-child) {
+  float: right;
+  width: 400px;
+  max-width: 45%;
+  margin: 10px 10px 10px 24px;
+}
+
+main .default-content-wrapper p:has(> picture:only-child) img,
+main .default-content-wrapper p:has(> img:only-child) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Clear floats at the end of each default-content flow so the next section
+ * (or the columns block) starts on a fresh line rather than wrapping up
+ * alongside a tall floated image. */
+main .default-content-wrapper::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* Mobile: stack the images full-width instead of floating (source drops the
+ * float below its small breakpoint). */
+@media (width < 768px) {
+  main .default-content-wrapper p:has(> picture:only-child),
+  main .default-content-wrapper p:has(> img:only-child) {
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 16px 0;
+  }
+}

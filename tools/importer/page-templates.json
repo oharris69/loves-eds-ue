@@ -66,6 +66,85 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "about-content-article",
+      "urls": [
+        "https://www.loves.com/about-us/tom-love-legacy"
+      ],
+      "coverageGaps": [],
+      "description": "About Us content article page (Tom Love Legacy). Structure: breadcrumb navigation, an H1 page title, a lead/intro paragraph, then a series of full-width content sections each pairing an image with rich text (headings, paragraphs, and bulleted lists). No hero banner or feature-card grids like the homepage.",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(2)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1-title-intro",
+          "name": "Page Title + Intro",
+          "selector": [
+            "#content > h1.heading_heading__8mSev"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#content > h1.heading_heading__8mSev",
+            "#content > section.grid_grid__PqGa9:nth-of-type(1)"
+          ]
+        },
+        {
+          "id": "section-2-man-behind-brand",
+          "name": "The Man Behind the Brand",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(2)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3-first-steps",
+          "name": "Love's First Steps + Core Values",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(5)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(5)"
+          ]
+        },
+        {
+          "id": "section-4-innovation-community",
+          "name": "Innovation and Milestones + Community and Giving Back",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(7)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(7)"
+          ]
+        },
+        {
+          "id": "section-5-family-legacy",
+          "name": "Family and Lasting Legacy",
+          "selector": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(9)"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#content > section.grid_grid__PqGa9:nth-of-type(9)"
+          ]
+        }
+      ]
     }
   ]
 }
