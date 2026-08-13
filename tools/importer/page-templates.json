@@ -152,10 +152,10 @@
         "https://www.loves.com/about-us"
       ],
       "coverageGaps": [],
-      "description": "About Us landing page for the Love's Family of Companies. Structure: breadcrumb navigation, an H1 page title, a two-column intro section (company overview paragraph with social links on the left, an embedded YouTube brand video on the right), and a four-column grid of family-of-companies cards (Gemini Motor Transport, Musket Corporation, Love's Alternative Energy, Speedco), each with an image, a linked heading, a description paragraph, and a LinkedIn social link. Distinct from the about-content-article template (tom-love-legacy) which has no card grid or video.",
+      "description": "About Us landing page for the Love's Family of Companies. Structure: breadcrumb navigation, an H1 page title, an intro section (company overview paragraph + social links as default content, followed by a full-width Dynamic Media Video block), and a four-column grid of family-of-companies cards (Gemini Motor Transport, Musket Corporation, Love's Alternative Energy, Speedco), each with an image, a linked heading, a description paragraph, and a LinkedIn social link. Distinct from the about-content-article template (tom-love-legacy) which has no card grid or video.",
       "blocks": [
         {
-          "name": "columns",
+          "name": "dynamic-media-video",
           "instances": [
             "#content > section.grid_grid__PqGa9:nth-of-type(1)"
           ]
@@ -170,13 +170,13 @@
       "sections": [
         {
           "id": "section-1-title-intro",
-          "name": "Page Title + Two-Column Intro",
+          "name": "Page Title + Intro + Video",
           "selector": [
             "#content > section.grid_grid__PqGa9:nth-of-type(1)"
           ],
           "style": null,
           "blocks": [
-            "columns"
+            "dynamic-media-video"
           ],
           "defaultContent": [
             "#content > h1.heading_heading__8mSev"

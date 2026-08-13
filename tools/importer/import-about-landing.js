@@ -5,9 +5,10 @@
 // Dedicated, template-specific parsers for the about-landing page. These are
 // intentionally SEPARATE files from the shared parsers/columns.js (used by
 // about-content-article) and parsers/cards.js (used by the homepage) because the
-// about-us landing DOM differs: the intro columns is text+social | video, and the
-// family-of-companies cards use section.container items (no card_card__* class).
-import columnsParser from './parsers/about-landing-columns.js';
+// about-us landing DOM differs: the intro emits default text/social + a full-width
+// Dynamic Media Video block, and the family-of-companies cards use section.container
+// items (no card_card__* class).
+import introParser from './parsers/about-landing-intro.js';
 import cardsParser from './parsers/about-landing-cards.js';
 
 // TRANSFORMER IMPORTS
@@ -18,13 +19,13 @@ import lovesAboutCleanupTransformer from './transformers/loves-about-cleanup.js'
 // PAGE TEMPLATE CONFIGURATION — embedded from page-templates.json (template "about-landing")
 const PAGE_TEMPLATE = {
   name: 'about-landing',
-  description: "About Us landing page for the Love's Family of Companies. Two-column intro (overview + social | YouTube video) and a 4-up family-of-companies card grid (Gemini, Musket, Love's Alternative Energy, Speedco).",
+  description: "About Us landing page for the Love's Family of Companies. Intro (overview + social links as default content, then a full-width Dynamic Media Video block) and a 4-up family-of-companies card grid (Gemini, Musket, Love's Alternative Energy, Speedco).",
   urls: [
     'https://www.loves.com/about-us',
   ],
   blocks: [
     {
-      name: 'columns',
+      name: 'dynamic-media-video',
       instances: [
         '#content > section.grid_grid__PqGa9:nth-of-type(1)',
       ],
@@ -45,10 +46,10 @@ const PAGE_TEMPLATE = {
   sections: [
     {
       id: 'section-1-title-intro',
-      name: 'Page Title + Two-Column Intro',
+      name: 'Page Title + Intro + Video',
       selector: ['#content > section.grid_grid__PqGa9:nth-of-type(1)'],
       style: null,
-      blocks: ['columns'],
+      blocks: ['dynamic-media-video'],
       defaultContent: ['#content > h1.heading_heading__8mSev'],
     },
     {
@@ -64,7 +65,7 @@ const PAGE_TEMPLATE = {
 
 // PARSER REGISTRY — map parser names to functions
 const parsers = {
-  columns: columnsParser,
+  'dynamic-media-video': introParser,
   cards: cardsParser,
 };
 
