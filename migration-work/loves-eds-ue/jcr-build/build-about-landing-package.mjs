@@ -87,12 +87,20 @@ if (result.md || (Array.isArray(result) && result[0].md)) {
   writeFileSync(`${JCRB}/about-us.md`, result.md || result[0].md, 'utf-8');
 }
 
-// --- Package the page node, filter scoped to exactly this page. ---
+// --- Package the page node. ---
+// IMPORTANT: the about-us landing page has a CHILD page (about-us/tom-love-legacy).
+// A plain `<filter root=".../about-us"/>` means "replace the whole about-us subtree",
+// which would DELETE the tom-love-legacy child (it is not in this package). Exclude
+// that child subtree from the filter so installing this package creates/updates only
+// the about-us page's own content and leaves tom-love-legacy (and any other child
+// pages) untouched.
 const zip = new JSZip();
 zip.file(`jcr_root${PAGE}/.content.xml`, xml);
 zip.file('META-INF/vault/filter.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-  <filter root="${PAGE}"/>
+  <filter root="${PAGE}">
+    <exclude pattern="${PAGE}/tom-love-legacy(/.*)?"/>
+  </filter>
 </workspaceFilter>
 `);
 zip.file('META-INF/vault/properties.xml', `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
