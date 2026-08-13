@@ -143,7 +143,11 @@ header .nav-list {
   display: flex;
   flex-wrap: nowrap; /* single row, like the source */
   align-items: stretch;
-  justify-content: flex-start;
+
+  /* Spread the items across the full width of the nav band, matching loves.com
+     (whose top-level links fill the ~1200px content column edge-to-edge) rather
+     than packing to the left and leaving a gap before the search. */
+  justify-content: space-between;
   gap: 0;
 }
 
